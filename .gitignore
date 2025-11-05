@@ -1,0 +1,27 @@
+# Node / build
+# Do not ignore entire Back-end so it can be pushed
+Back-end/node_modules/
+Front-end/node_modules/
+Back-end/public/Temp/
+Front-end/dist/
+Back-end/dist/
+Front-end/build/
+Back-end/build/
+
+# Env & secrets
+.env
+.env.*
+Back-end/.env
+Front-end/.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
