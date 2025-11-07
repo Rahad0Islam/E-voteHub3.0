@@ -470,14 +470,14 @@ const GetApprovedNominee = AsynHandler(async (req, res) => {
     .select("UserID SelectedBalot")
     .populate('UserID', 'FullName UserName ProfileImage');
 
-  if (!NomineeDetails || NomineeDetails.length === 0) {
-    throw new ApiError(401, "No approved nominees found for this event");
-  }
+  // if (!NomineeDetails || NomineeDetails.length === 0) {
+  //   throw new ApiError(401, "No approved nominees found for this event");
+  // }
 
   return res.status(200).json(
     new ApiResponse(200, {
-      NomineeDetails,
-      count: NomineeDetails.length
+      NomineeDetails:NomineeDetails||[],
+      count: NomineeDetails?.length||0
     }, "Approved nominees retrieved successfully")
   );
 });
@@ -494,14 +494,14 @@ const GetPendingNominee = AsynHandler(async (req, res) => {
     .select("UserID SelectedBalot")
     .populate('UserID', 'FullName UserName ProfileImage');
 
-  if (!NomineeDetails || NomineeDetails.length === 0) {
-    throw new ApiError(401, "No pending nominees ");
-  }
+  // if (!NomineeDetails || NomineeDetails.length === 0) {
+  //   throw new ApiError(401, "No pending nominees ");
+  // }
 
   return res.status(200).json(
     new ApiResponse(200, {
-      NomineeDetails,
-      count: NomineeDetails.length
+      NomineeDetails: NomineeDetails || [],
+      count: NomineeDetails?.length||0
     }, "Pending nominees retrieved successfully")
   );
 });
@@ -516,14 +516,14 @@ const GetVoter=AsynHandler(async(req,res)=>{
 
   const VoterDetails = await VoterReg.find({ EventID}).select("UserID").populate('UserID', 'FullName UserName ProfileImage');
 
-  if (!VoterDetails || VoterDetails.length === 0) {
-    throw new ApiError(401, "No voter found");
-  }
+  // if (!VoterDetails || VoterDetails.length === 0) {
+  //   throw new ApiError(401, "No voter found");
+  // }
 
   return res.status(200).json(
     new ApiResponse(200, {
-      VoterDetails,
-      count: VoterDetails.length
+      VoterDetails:VoterDetails||[],
+      count: VoterDetails?.length||0
     }, "Voter details retrived successfully")
   );
 
@@ -538,19 +538,19 @@ const getVoterPerticipate=AsynHandler(async(req,res)=>{
 
   const GivenVoter = await VoterReg.find({ EventID,hasVoted:true}).select("UserID").populate('UserID', 'FullName UserName ProfileImage');
 
-  if (!GivenVoter || GivenVoter.length === 0) {
-    throw new ApiError(401, "voter found");
-  }
+  // if (!GivenVoter || GivenVoter.length === 0) {
+  //   throw new ApiError(401, "voter found");
+  // }
 
   const nonVoter=await VoterReg.find({ EventID,hasVoted:false}).select("UserID").populate('UserID', 'FullName UserName ProfileImage');
   
    return res.status(200).json(
     new ApiResponse(200, {
-      GivenVoter,
-      givenCount: GivenVoter.length,
-      nonVoter,
-      nonCount: nonVoter.length,
-      VoterPerticapteRate:GivenVoter.length/(GivenVoter.length+nonVoter.length)*100
+      GivenVoter:GivenVoter||[],
+      givenCount: GivenVoter.length||0,
+      nonVoter:nonVoter||[],
+      nonCount: nonVoter?.length||0,
+      VoterPerticapteRate:GivenVoter?.length/(GivenVoter?.length+nonVoter?.length)*100 || 0
     }, "Successfully fetched all voter data!")
   );
 })
